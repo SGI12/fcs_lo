@@ -1,9 +1,13 @@
-import React from 'react';
+'use client'
+import React, {useEffect} from 'react';
+
+
 
 const HomePage = () => {
+
     return (
         <div>
-            Hello
+
         </div>
     );
 };

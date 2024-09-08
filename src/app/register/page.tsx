@@ -1,15 +1,24 @@
 'use client'
-import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
+import {  Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { Roboto } from 'next/font/google';
 import Image from 'next/image';
 import React, { useState } from 'react';
-const roboto = Roboto({ subsets: ['cyrillic'], weight: '400' })
+import {SubmitHandler, useForm} from "react-hook-form";
+const roboto = Roboto({ subsets: ['cyrillic'], weight: ['400', '500'] })
 
-const page = () => {
-    const [name, setName] = useState('')
-    const [lname, setLname] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+type formData = {
+    name: string
+}
+const Page = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<formData>();
+
+    const onSubmit:SubmitHandler<formData> = (data) => {
+        console.log(data);
+    };
     return (
     <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', height: '80vh', justifyContent: 'center'}}  component="main" maxWidth="xs">
       
@@ -21,18 +30,20 @@ const page = () => {
           Регистрация
         </Typography>
 
-        <form  noValidate>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField 
-                
+              <TextField
                 autoComplete="fname"
-                name="firstName"
                 variant="outlined"
                 required
                 fullWidth
+                {...register('name',
+                    { required: 'Пожалуйста, введите имя'})}
+                helperText={errors.name ? errors.name.message : ''}
                 id="firstName"
                 label="Имя"
+                error={!!errors.name}
                 autoFocus
               />
             </Grid>
@@ -92,4 +103,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
